@@ -9,18 +9,11 @@ import './App.css';
 import TransactionTable from './components/TransactionTable';
 
 function App() {
-  const [totalBalance, setTotalBalance] = useState([]);
-  const [bezosBalance, setBezosBalance] = useState([]);
-  const [bezosPercentage, setBezosPercentage] = useState([]);
-  const [transactions, setTransactions] = useState([]);
-  const [selectedTransaction, setSelectedTransaction] = useState([]);
-
-  useEffect(() => loadTransactions(), []);
-
-  useEffect(() => {
-    const timer = setInterval(loadTransactions, 5000);
-    return () => clearInterval(timer);
-  }, []);
+  const [ totalBalance, setTotalBalance ] = useState([]);
+  const [ bezosBalance, setBezosBalance ] = useState([]);
+  const [ bezosPercentage, setBezosPercentage ] = useState([]);
+  const [ transactions, setTransactions ] = useState([]);
+  const [ selectedTransaction, setSelectedTransaction ] = useState([]);
 
   function loadTransactions() {
     axios
@@ -41,7 +34,7 @@ function App() {
         isBezosCompany: true,
       })
       .then((response) => alert(response.data))
-      .then((unused) => loadTransactions());
+      .then(() => loadTransactions());
   }
 
   function onNotBezosClicked() {
@@ -51,8 +44,15 @@ function App() {
         isBezosCompany: false,
       })
       .then((response) => alert(response.data))
-      .then((unused) => loadTransactions());
+      .then(() => loadTransactions());
   }
+
+  useEffect(() => loadTransactions(), []);
+
+  useEffect(() => {
+    const timer = setInterval(loadTransactions, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="App">
